@@ -10,4 +10,4 @@ with gr.Blocks() as demo:
 
     demo.load(create_greeting, inputs=None, outputs=user_ip)
 
-demo.launch(auth=EraX_auth, share=False, server_port=9910)
+demo.launch(auth=EraX_auth, share=False, server_port=7069)
