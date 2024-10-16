@@ -1,6 +1,8 @@
 import os
 
-storage_path = os.path.join(os.getcwd(), "storage")
+storage_path = "/mnt/data03/deployment/label/data/text2audio/storage"
+if not os.path.exists(storage_path):
+    storage_path = "app/storage"
 
 texts_path = os.path.join(storage_path, "texts")
 os.makedirs(texts_path, exist_ok=True)
