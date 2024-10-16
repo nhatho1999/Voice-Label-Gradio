@@ -15,3 +15,8 @@ admin_lst = [
 ]
 
 EraX_auth = [(un, pw) for un, pw in zip(username_lst, password_lst)] + admin_lst
+
+username_2_lsStorageID = dict()
+for ls_storage_id_1, tuple_un_pw in enumerate(EraX_auth):
+    un, pw = tuple_un_pw
+    username_2_lsStorageID[un] = ls_storage_id_1 + 1
