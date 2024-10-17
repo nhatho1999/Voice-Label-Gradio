@@ -1,13 +1,13 @@
 import os
 
 root_dir_path = "/mnt/data03/deployment/label/data/text2audio"
-if not os.path.exists(storage_path):
+if not os.path.exists(root_dir_path):
     root_dir_path = "app"
 
 label_studio_data_path = os.path.join(root_dir_path, "label_studio_data")
 os.makedirs(label_studio_data_path, exist_ok=True)
 
-storage_path = os.path.join(os.getcwd(), "storage")
+storage_path = os.path.join(root_dir_path, "storage")
 
 label_studio_project_dir_name = "audios_jsons"
 audios_path = os.path.join(storage_path, label_studio_project_dir_name)
