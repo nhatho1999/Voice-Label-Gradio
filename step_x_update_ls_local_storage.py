@@ -13,15 +13,8 @@ headers = {
     # 'X-CSRFToken': 'm53vS36OJbpp5WCVOotPHzrlg3tK1iOtXI6X96vKjTKivQWoG6NmN2FdNJtdJJtw'
 }
 
-label_interface = """<View>
-  <Audio name="audio" value="$audio" zoom="true" hotkey="ctrl+enter" />
-  <Header value="Provide Transcription" />
-  <TextArea name="transcription" toName="audio"
-            rows="4" editable="true" maxSubmissions="1" />
-</View>"""
 
-
-def update_project(username, proj_id):
+def create_local_storage_for(username, proj_id):
     data = {
         "title": f"EraX Ghi âm project_id #{proj_id}",
         "description": f"Ghi âm của project_id #{proj_id}",
@@ -52,8 +45,12 @@ from utils.auth import EraX_auth
 
 username_list = [_[0] for _ in EraX_auth]
 
-from tqdm import tqdm
 
-for proj_id_s1, username in tqdm(enumerate(username_list)):
-    proj_id = proj_id_s1 + 1
-    resp = create_project(username, proj_id)
+resp = create_local_storage_for(username="nhat.ph", proj_id=202)
+print(resp)
+
+# from tqdm import tqdm
+
+# for proj_id_s1, username in tqdm(enumerate(username_list)):
+#     proj_id = proj_id_s1 + 1
+#     resp = create_local_storage_for(username, proj_id)

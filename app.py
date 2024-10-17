@@ -3,7 +3,7 @@ import os, json, glob
 import gradio as gr
 from gradio import *
 
-from utils.auth import EraX_auth
+from utils.auth import EraX_auth, username_2_lsStorageID
 from utils.paths import *
 
 global state
@@ -21,6 +21,7 @@ import shutil
 
 import numpy as np
 import random
+import requests
 
 # Rule
 audio_min_length =  1
@@ -67,7 +68,7 @@ def pressed_submit_btn_event(username):
                     {
                         "value": {
                             "text": [
-                                f"{text_content}"
+                                f"{text}"
                             ]
                         },
                         "from_name": "transcription",
@@ -84,27 +85,27 @@ def pressed_submit_btn_event(username):
         json.dump(json_content, fo, ensure_ascii=False, indent=4)
 
     
-    labeled_text_path = text_path.replace(texts_path, labeled_texts_path)
+    labeled_text_path = text_file_path.replace(texts_path, labeled_texts_path)
     os.makedirs(os.path.dirname(labeled_text_path), exist_ok=True)
-    shutil.move(text_path, labeled_text_path)
+    shutil.move(text_file_path, labeled_text_path)
 
-    storage_id = username_2_lsStorageID[username]
-    data = {}
-    session = requests.Session()
-    session.get(label_studio_URL)
+    # storage_id = username_2_lsStorageID[username]
+    # data = {}
+    # session = requests.Session()
+    # session.get(label_studio_URL)
     
-    if 'csrftoken' in session.cookies:
-        # Django 1.6 and up
-        csrftoken = session.cookies['csrftoken']
-    else:
-        # older versions
-        csrftoken = session.cookies['csrf']
+    # if 'csrftoken' in session.cookies:
+    #     # Django 1.6 and up
+    #     csrftoken = session.cookies['csrftoken']
+    # else:
+    #     # older versions
+    #     csrftoken = session.cookies['csrf']
         
-    resp = session.post(
-        f'{label_studio_URL}/api/storages/localfiles/{storage_id}/sync',
-        headers=headers,
-        json=data
-    )
+    # resp = session.post(
+    #     f'{label_studio_URL}/api/storages/localfiles/{storage_id}/sync',
+    #     headers=headers,
+    #     json=data
+    # )
 
 
 with gr.Blocks() as Recorder:
@@ -244,16 +245,16 @@ with gr.Blocks() as Recorder:
 
 Recorder.queue(max_size=180)
 
-# Debug
-# Recorder.launch(auth=authenticator, ssl_verify=False, ssl_keyfile="./key.pem", ssl_certfile="./cert.pem", 
-#                server_name="118.69.81.93", server_port=7794, share=False,
-#                inline=True,
-#                inbrowser=True, 
-#                show_error=True, debug=True, enable_monitoring=True)
-
-# Deploy
-Recorder.launch(auth=authenticator,
+Debug
+Recorder.launch(auth=authenticator, ssl_verify=False, ssl_keyfile="./key.pem", ssl_certfile="./cert.pem", 
                server_name="118.69.81.93", server_port=7794, share=False,
                inline=True,
                inbrowser=True, 
-               show_error=True, debug=False, enable_monitoring=False)
+               show_error=True, debug=True, enable_monitoring=True)
+
+# Deploy
+# Recorder.launch(auth=authenticator,
+#                server_name="118.69.81.93", server_port=7865, share=False,
+#                inline=True,
+#                inbrowser=True, 
+#                show_error=True, debug=False, enable_monitoring=False)
