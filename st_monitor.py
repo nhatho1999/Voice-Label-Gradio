@@ -21,6 +21,8 @@ file_count = 0  # Biến đếm số lượng file trong selectbox2
 if audios_path and os.path.exists(audios_path):
     # Lấy danh sách các thư mục con
     folder_names = [f for f in os.listdir(audios_path) if os.path.isdir(os.path.join(audios_path, f))]
+    folder_names = sorted(folder_names, key = lambda x: x)
+
     default_ix = 0
     if "nhat.ph" in set(folder_names):
         default_ix = folder_names.index("nhat.ph")
@@ -42,20 +44,24 @@ if audios_path and os.path.exists(audios_path):
         with st.container():
             st.title(f"Số lượng GHI ÂM đã thực hiện: {len_wav_file_names}")
 
-        idx_wav_file_name = 0
+        if "idx_wav_file_name" not in st.session_state:
+            st.session_state['idx_wav_file_name'] = 0
 
         if len(wav_file_names):
-            with st.container():
-                if st.button("Lấy mẫu ngẫu nhiên", key="random_button"):
-                    idx_wav_file_name = random.randint(0, len(wav_file_names)-1)
 
-
-            # Selectbox thứ hai (Chọn file)
             with st.container():
-                selected_file_name = st.selectbox("Chọn GHI ÂM:", wav_file_names, index=idx_wav_file_name)
+                random_btn = st.button("Lấy mẫu ngẫu nhiên", key="random_button")
+
+            with st.container():
+                selected_file_name = st.selectbox("Chọn GHI ÂM:", wav_file_names, index=st.session_state['idx_wav_file_name'])
             
             if selected_file_name:
-                if st.button("Nghe GHI ÂM và xem NỘI DUNG", key="select_button"):
+                view_btn = st.button("Nghe GHI ÂM và xem NỘI DUNG", key="select_button")
+
+                if random_btn:
+                    st.session_state['idx_wav_file_name'] = random.randint(0, len(wav_file_names)-1)
+
+                if view_btn or random_btn:  
                     
                     file_name_without_ext = selected_file_name[:-4] # - ".wav"
                     json_file_name = f"{file_name_without_ext}.json"

@@ -150,7 +150,7 @@ with gr.Blocks() as Recorder:
             print ("Can submit now !")
             state["success"] = True
             state["tmp_gr_wav_file_path"] = filepath
-            state["message"] = "Ghi âm hợp lệ. Nghe kỹ lại và bấm Gửi-AAA hoăc Ghi âm lại."
+            state["message"] = "Ghi âm hợp lệ. Nghe kỹ lại và bấm Gửi-AAA hoặc Ghi âm lại."
 
             return gr.update(interactive=True), gr.update(interactive=True), gr.update(), gr.update(label=state["message"])
             
@@ -163,7 +163,7 @@ with gr.Blocks() as Recorder:
                 state["message"] = "Ghi âm QUÁ NGẮN. Xem kỹ đoạn văn và bấm Record để đọc hết toàn bộ."
             elif audio_duration > audio_max_length:
                 print ("Ghi âm QUÁ DÀI !")
-                state["message"] = "Ghi âm QÚA DÀI. Xem kỹ đoạn văn và bấm Record để đọc hết toàn bộ."
+                state["message"] = "Ghi âm QUÁ DÀI. Xem kỹ đoạn văn và bấm Record để đọc hết toàn bộ."
             else:
                 state["message"] = "Ghi âm KHÔNG HỢP LỆ. Xem kỹ đoạn văn và bấm Record để đọc hết toàn bộ."
             return gr.update(interactive=False), gr.update(interactive=False), gr.update(value=None), gr.update(label=state["message"])
@@ -184,12 +184,12 @@ with gr.Blocks() as Recorder:
 
             text_file_path, text = get_Label_Studio__(username) # local variable
 
-            msg_title = f"Xem kỹ đoạn văn và bấm Record để đọc hết toàn bộ - {gr.Request}"            
+            msg_title = f"Xem kỹ đoạn văn và bấm Record để đọc hết toàn bộ."
             # get another random text
             return gr.update(interactive=False), gr.update(interactive=False), gr.update(value=None), gr.update(value=text, label=msg_title), gr.update(value=text_file_path)
             
         else:
-            msg_title = f"Xem kỹ đoạn văn và bấm Record để đọc hết toàn bộ - {gr.Request}"            
+            msg_title = f"Xem kỹ đoạn văn và bấm Record để đọc hết toàn bộ"
             return gr.update(interactive=False), gr.update(interactive=False), gr.update(value=None), gr.update(value=text, label=msg_title), gr.update(value=text_file_path)
 
 
