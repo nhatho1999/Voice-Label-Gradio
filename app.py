@@ -3,7 +3,7 @@ import os, json, glob
 import gradio as gr
 from gradio import *
 
-from utils.auth import EraX_auth, username_2_lsStorageID
+from utils.auth import EraX_auth
 from utils.paths import *
 
 global state
@@ -53,6 +53,7 @@ def pressed_submit_btn_event(username):
     temp_wav_path = state["tmp_gr_wav_file_path"]
     # Lưu lại file wav mới và xoá file tạm được lưu bới Gradio
     wav_path = os.path.join(audios_path, username, f"{file_name_without_ext}.wav")
+    os.makedirs(os.path.dirname(wav_path), exist_ok=True)
     shutil.copy2(temp_wav_path, wav_path)
     shutil.rmtree(os.path.dirname(temp_wav_path))
     # Lưu file json để hiển thị ở trang Label Studio
@@ -208,7 +209,7 @@ with gr.Blocks() as Recorder:
     msg = gr.Textbox(value="", lines=5, label=msg_title, autoscroll=True, interactive=False, )
     user_markdown = gr.Markdown(value="")
 
-    hidden_text_file_path = gr.Textbox(value="", lines=2, label="đây là đường dẫn sẽ bị ẩn", autoscroll=True, interactive=False, visible=True)
+    hidden_text_file_path = gr.Textbox(value="", lines=2, label="đây là đường dẫn sẽ bị ẩn", autoscroll=True, interactive=False, visible=False)
 
     Recorder.load(update_user_request, outputs=[msg, user_markdown, hidden_text_file_path])
 
@@ -245,16 +246,9 @@ with gr.Blocks() as Recorder:
 
 Recorder.queue(max_size=180)
 
-Debug
+# Debug
 Recorder.launch(auth=authenticator, ssl_verify=False, ssl_keyfile="./key.pem", ssl_certfile="./cert.pem", 
                server_name="118.69.81.93", server_port=7794, share=False,
                inline=True,
                inbrowser=True, 
                show_error=True, debug=True, enable_monitoring=True)
-
-# Deploy
-# Recorder.launch(auth=authenticator,
-#                server_name="118.69.81.93", server_port=7865, share=False,
-#                inline=True,
-#                inbrowser=True, 
-#                show_error=True, debug=False, enable_monitoring=False)

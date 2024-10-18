@@ -1,19 +1,10 @@
 import os
 
-LABEL_STUDIO_ADMIN_TOKEN = "969bb00b2b2bf1876b04fa64a7502ab7af8a6d45"
+app_server_root_dir_path = "/mnt/data03/deployment/label/data/text2audio"
+if not os.path.exists(app_server_root_dir_path):
+    app_server_root_dir_path = "app"
 
-label_studio_URL = 'http://localhost:7749'
-
-
-label_studio_headers = {
-    'accept': 'application/json',
-    'Content-Type': 'application/json',
-    'Authorization': f'Token {LABEL_STUDIO_ADMIN_TOKEN}'
-}
-
-storage_path = "/mnt/data03/deployment/label/data/text2audio/storage"
-if not os.path.exists(storage_path):
-    storage_path = "app/storage"
+storage_path = os.path.join(app_server_root_dir_path, "storage")
 
 texts_path = os.path.join(storage_path, "texts")
 os.makedirs(texts_path, exist_ok=True)
@@ -25,4 +16,3 @@ label_studio_project_dir_name = "audios_jsons"
 audios_path = os.path.join(storage_path, label_studio_project_dir_name)
 jsons_path = os.path.join(storage_path, label_studio_project_dir_name)
 os.makedirs(audios_path, exist_ok=True)
-os.makedirs(jsons_path, exist_ok=True)
