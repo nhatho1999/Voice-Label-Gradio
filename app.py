@@ -5,6 +5,7 @@ from gradio import *
 
 from utils.auth import EraX_auth
 from utils.paths import *
+from utils.prod_config import SERVER_NAME, SERVER_GRADIO_PORT
 
 global state
 state = {
@@ -248,7 +249,7 @@ Recorder.queue(max_size=180)
 
 # Debug
 Recorder.launch(auth=authenticator, ssl_verify=False, ssl_keyfile="./key.pem", ssl_certfile="./cert.pem", 
-               server_name="118.69.81.93", server_port=7794, share=False,
+               server_name=SERVER_NAME, server_port=SERVER_GRADIO_PORT, share=False,
                inline=True,
-               inbrowser=True, 
+               inbrowser=True,
                show_error=True, debug=True, enable_monitoring=True)
